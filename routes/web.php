@@ -52,8 +52,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/billings/{id}', [BillingController::class, 'show'])->name('billings.initiate');
     Route::put('/billings/{id}', [BillingController::class, 'update'])->name('billings.update');
-    Route::get('/bills', [BillingController::class, 'showBills'])->name('bills.show');
-    Route::get('/billDetails', [BillingController::class, 'showBillDetail'])->name('bills.detail');
+    Route::get('/bills', [BillingController::class, 'billHistory'])->name('bills.show');
+    Route::get('/bill', [BillingController::class, 'showBills'])->name('bills.search');
+    Route::get('/billDetails/{id}', [BillingController::class, 'showBillDetail'])->name('bills.detail');
 
     Route::get('/translator', [TranslatorController::class, 'index'])->name('translator.index');
     Route::post('/translator', [TranslatorController::class, 'translate'])->name('translator.translate');

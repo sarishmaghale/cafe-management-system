@@ -9,7 +9,7 @@
     <!-- Bootstrap + FontAwesome -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <style>
         :root {
             --bg-color: #f5f5f8;
@@ -177,6 +177,8 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Navbar -->
     <nav class="navbar navbar-dark">
         <button class="btn btn-dark" id="sidebarToggle">
@@ -213,9 +215,9 @@
     <div id="sidebar">
         <nav class="nav flex-column">
             <a class="nav-link" href="/"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
-            <a class="nav-link" href="{{ route('products.show') }}"><i class="fas fa-box"></i> <span>Products</span></a>
             <a class="nav-link" href="{{ route('stations.index') }}"><i class="fas fa-building"></i>
                 <span>Stations</span></a>
+            <a class="nav-link" href="{{ route('products.show') }}"><i class="fas fa-box"></i> <span>Products</span></a>
             <a class="nav-link" href="{{ route('bills.show') }}"><i class="fas fa-shopping-cart"></i>
                 <span>Bills</span></a>
             <a class="nav-link" href="{{ route('translator.index') }}"><i class="fas fa-language"></i>
@@ -231,7 +233,7 @@
             <div class="submenu" id="componentsMenu">
                 <a class="nav-link" href="{{ route('stations.add') }}"><i class="fas fa-user-cog"></i> <span>Update
                         Stations</span></a>
-                <a class="nav-link" href="{{ route('bills.detail') }}"><i class="fas fa-search"></i> <span>Search
+                <a class="nav-link" href=""><i class="fas fa-search"></i> <span>Search
                         Receipt</span></a>
                 <a class="nav-link" href="/roles"><i class="fas fa-user-shield"></i> <span>Roles</span></a>
             </div>
@@ -274,6 +276,20 @@
                 }
             });
         });
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: '{{ session('success') }}',
+                timer: 2500,
+            });
+        @endif
+        @if (session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '{{ session('error') }}'
+            });
+        @endif
     </script>
     @stack('scripts')
 </body>

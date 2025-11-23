@@ -3,32 +3,39 @@
 @section('content')
     <div class="container my-3">
         <h2 class="mb-4 text-center">Bills History</h2>
-        @if (session('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
         <!-- Search Form -->
-        <form action="{{ route('bills.show') }}" method="GET">
+        <form action="{{ route('bills.search') }}" method="GET">
             @csrf
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <input type="date" id="searchDate" class="form-control" name="searchDate" placeholder="Select Date">
+            <div class="row mb-2 g-3 align-items-end">
+                <!-- From Date -->
+                <div class="col-auto d-flex flex-column">
+                    <label for="fromDate" class="form-label mb-1">From</label>
+                    <input type="date" id="fromDate" name="fromDate" class="form-control"
+                        value="{{ request('fromDate') ?? '' }}">
                 </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary w-100" type="submit">Search</button>
+
+                <!-- To Date -->
+                <div class="col-auto d-flex flex-column">
+                    <label for="toDate" class="form-label mb-1">To</label>
+                    <input type="date" id="toDate" name="toDate" class="form-control"
+                        value="{{ request('toDate') ?? '' }}">
                 </div>
-                <div class="col-md-2">
-                    <a href="{{ route('bills.show') }}" class="btn btn-secondary w-100">Reset
-                    </a>
+
+                <!-- Receipt Number -->
+                <div class="col-auto d-flex flex-column">
+                    <label for="billNum" class="form-label mb-1">Receipt Number</label>
+                    <input type="number" id="billNum" name="billNum" class="form-control no-spin"
+                        placeholder="Enter number" value="{{ request('billNum') ?? '' }}">
+                </div>
+
+                <!-- Search Button -->
+                <div class="col-auto d-flex flex-column mt-2">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+
+                <!-- Reset Button -->
+                <div class="col-auto d-flex flex-column mt-2">
+                    <a href="{{ route('bills.show') }}" class="btn btn-secondary">Reset</a>
                 </div>
             </div>
         </form>
@@ -43,11 +50,11 @@
                         <th>Station/Table</th>
                         <th>Billing Date</th>
                         <th>Customer Name</th>
-
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($bills as $bill)
+                    @forelse ($bills as $bill)
                         <!-- Sample Data -->
                         <tr>
                             <td>{{ $bill->bill_num }}</td>
@@ -55,17 +62,30 @@
                             <td>{{ $bill->station->station_name }}</td>
                             <td>{{ $bill->created_at }}</td>
                             <td>{{ $bill->customer_name }}</td>
+                            <td>
+                                <a href="{{ route('bills.detail', $bill->bill_num) }}" class="btn btn-sm btn-primary">
+                                    View</a>
+                            </td>
                         </tr>
-                    @endforeach
-
+                    @empty
+                        <tr>
+                            <td colspan="5">
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert"> No data found
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
-                <tfoot class="table-light fw-bold">
-                    <tr>
-                        <td colspan="2" class="text-center">Rs. {{ $bills->sum('total') }}</td>
+                @if ($bills->isNotEmpty())
+                    <tfoot class="table-light fw-bold">
+                        <tr>
+                            <td colspan="2" class="text-center">Rs. {{ $bills->sum('total') }}</td>
+                            <td colspan="3" class="text-start">: Total Sales</td>
+                        </tr>
+                    </tfoot>
+                @endif
 
-                        <td colspan="3" class="text-start">: Total Sales</td>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div>

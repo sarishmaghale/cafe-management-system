@@ -14,7 +14,7 @@ class BillingController extends Controller
 
     public function show(int $id)
     {
-        $billings = $this->billingService->getBillingDetails($id);
+        $billings = $this->billingService->fetchBillingDetails($id);
         return view(
             'initiate-billing',
             compact('billings')
@@ -28,20 +28,28 @@ class BillingController extends Controller
         return redirect()->route('stations.index')->with('success', 'Bill paid successfully');
     }
 
-    public function showBills(Request $request)
+    public function billHistory()
     {
-        $date = $request->searchDate;
-        $bills = $this->billingService->searchBillsByDate($date);
+        $date = getTodayDate();
+        $bills = $this->billingService->fetchBillsByDate($date);
         return view('show-bills', compact('bills'));
     }
-    public function showBillDetail(Request $request)
+
+    public function showBills(Request $request)
     {
-        $bill_num = $request->id;
+        $fromDate = $request->fromDate;
+        $toDate = $request->toDate;
+        $billNum = $request->billNum;
+        $bills = $this->billingService->fetchBillByDateAndReceiptNum(fromDate: $fromDate, toDate: $toDate, receiptNum: $billNum);
+        return view('show-bills', compact('bills'));
+    }
+    public function showBillDetail($id)
+    {
         try {
-            $bill = $this->billingService->fetchBillDetailsByReceiptNum($request->id);
+            $bill = $this->billingService->fetchBillDetailsByReceiptNum($id);
             return view('details-bill', compact('bill'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->back()->with('error', 'Bill not found. Invalid Receipt num: ' . $bill_num);
+            return redirect()->back()->with('error', 'Bill not found. Invalid Receipt num: ' . $id);
         }
     }
 }

@@ -9,8 +9,8 @@ services:
         env_file:
             - .env
         volumes:
+            - ./:/var/www
             - ./storage:/var/www/storage
-            - ./public:/var/www/public
         # depends_on:
         #     - mysql
         command: php artisan serve --host=0.0.0.0 --port=8000

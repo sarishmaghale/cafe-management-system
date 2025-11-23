@@ -1,19 +1,6 @@
 @extends('layout')
 
 @section('content')
-    @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
     <div class="container mx-auto p-3">
         <h2 class="text-xl font-bold mb-4">Orders for {{ $stationInfo->station_name }}:</h2>
         <!-- Add New Product Form -->

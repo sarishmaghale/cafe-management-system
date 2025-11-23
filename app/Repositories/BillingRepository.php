@@ -51,8 +51,25 @@ class BillingRepository
             ->whereDay('updated_at', '<=', $currentDay)
             ->get();
     }
-    public function getBillByReceiptNum(int $bill_num): Billing
+    public function getBillByReceiptNum(int $bill_num): ?Billing
     {
-        return Billing::where('bill_num', $bill_num)->firstOrFail();
+        return Billing::where('bill_num', $bill_num)->first();
+    }
+
+    public function getBillsByDateRange(string $fromDate, string $toDate): Collection
+    {
+        return Billing::where('status', 1)
+            ->whereDate('updated_at', '>=', $fromDate)
+            ->whereDate('updated_at', '<=', $toDate)
+            ->orderBy('bill_num', 'desc')
+            ->get();
+    }
+    public function getBillsByDateRangeAndReceiptNum(string $fromDate, string $toDate, int $billNum): ?Billing
+    {
+        return Billing::where('status', 1)
+            ->whereDate('updated_at', '>=', $fromDate)
+            ->whereDate('updated_at', '<=', $toDate)
+            ->where('bill_num', $billNum)
+            ->first();
     }
 }

@@ -1,21 +1,6 @@
 @extends('layout')
 
 @section('content')
-    <form action="{{ route('bills.detail') }}" method="GET">
-        @csrf
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <input type="number"class="no-spin form-control" name="id" placeholder="Receipt num:" required>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-primary w-100" type="submit">Search</button>
-            </div>
-            <div class="col-md-2">
-                <a href="{{ route('bills.detail') }}" class="btn btn-secondary w-100">Reset
-                </a>
-            </div>
-        </div>
-    </form>
     @if ($bill)
         <div class="row justify-content-center">
             <div class="col-lg-10">

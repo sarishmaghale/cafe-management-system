@@ -33,7 +33,7 @@ class BillingService
         });
     }
 
-    public function searchBillsByDate($date)
+    public function fetchBillsByDate($date)
     {
         if (is_null($date)) {
             $date = getTodayDate();
@@ -41,7 +41,7 @@ class BillingService
         return $this->billingRepo->getBillsByDate($date);
     }
 
-    public function getBillingDetails($id)
+    public function fetchBillingDetails($id)
     {
         $billModel = $this->billingRepo->getBillByBillId($id);
         $billModel->orders = $this->orderRepo->getOrdersByBillingId($id);
@@ -49,6 +49,33 @@ class BillingService
         return $billModel;
     }
 
+    public function fetchBillByDateAndReceiptNum(?string $fromDate, ?string $toDate, ?int $receiptNum)
+    {
+        // Default: if both dates are null, use today
+        if (is_null($fromDate) && is_null($toDate) && is_null($receiptNum)) {
+            $fromDate = $toDate = getTodayDate();
+        }
+
+        // Case 1: Only date range
+        if (!is_null($fromDate) && !is_null($toDate) && is_null($receiptNum)) {
+            $data = $this->billingRepo->getBillsByDateRange($fromDate, $toDate);
+            return $data; // already a collection
+        }
+
+        // Case 2: Only receipt number
+        if (is_null($fromDate) && is_null($toDate) && !is_null($receiptNum)) {
+            $data = $this->billingRepo->getBillByReceiptNum($receiptNum);
+            return $data ? collect([$data]) : collect();
+        }
+
+        // Case 3: Both date range and receipt number
+        if (!is_null($fromDate) && !is_null($toDate) && !is_null($receiptNum)) {
+            $data = $this->billingRepo->getBillsByDateRangeAndReceiptNum($fromDate, $toDate, $receiptNum);
+            return $data ? collect([$data]) : collect();
+        }
+
+        return collect(); // fallback empty
+    }
     public function fetchListOfSalesForChart($date)
     {
         $currentDay = date('d', strtotime($date));
