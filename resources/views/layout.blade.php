@@ -267,14 +267,25 @@
             // Highlight active link
             const currentPath = window.location.pathname;
             document.querySelectorAll("#sidebar .nav-link").forEach(link => {
-                const linkPath = new URL(link.href).pathname;
+                const linkHref = link.getAttribute("href");
+                if (!linkHref || linkHref === "javascript:void(0)") return;
+
+                const linkPath = new URL(link.href, window.location.origin).pathname;
+
+                // Exact match or inside a subpath
                 if (currentPath === linkPath || currentPath.startsWith(linkPath + "/")) {
                     link.classList.add("active");
-                    // Open submenu if inside it
+
+                    // Open submenu if this link is inside one
                     const submenu = link.closest(".submenu");
                     if (submenu) submenu.classList.add("show");
+
+                    // Optionally mark parent toggle as active
+                    const parentToggle = submenu?.previousElementSibling;
+                    if (parentToggle) parentToggle.classList.add("active");
                 }
             });
+
         });
         @if (session('success'))
             Swal.fire({

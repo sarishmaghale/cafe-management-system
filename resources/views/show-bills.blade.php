@@ -37,6 +37,11 @@
                 <div class="col-auto d-flex flex-column mt-2">
                     <a href="{{ route('bills.show') }}" class="btn btn-secondary">Reset</a>
                 </div>
+
+                <!-- Export Button -->
+                <div class="col-auto d-flex flex-column mt-2">
+                    <button id="exportBtn" class="btn btn-success">Export Data</button>
+                </div>
             </div>
         </form>
 
@@ -90,3 +95,46 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        < script >
+            document.getElementById('exportBtn').addEventListener('click', function() {
+                let table = document.querySelector('table'); // your table
+                let rows = table.querySelectorAll('tr');
+                let csvContent = '';
+
+                // columns to export (0-based indices)
+                let columnsToExport = [0, 1, 2, 3, 4];
+
+                rows.forEach((row, index) => {
+                    let cols = row.querySelectorAll('td, th');
+                    let rowData = [];
+
+                    columnsToExport.forEach(i => {
+                        if (cols[i]) {
+                            let text = cols[i].innerText.replace(/,/g, ''); // remove commas
+                            rowData.push('"' + text + '"');
+                        }
+                    });
+
+                    csvContent += rowData.join(',') + '\n';
+                });
+
+                // Create blob and download
+                let blob = new Blob([csvContent], {
+                    type: 'text/csv;charset=utf-8;'
+                });
+                let link = document.createElement('a');
+                let url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', 'bill_History.csv');
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+    </script>
+
+    </script>
+@endpush
