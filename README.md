@@ -1,7 +1,6 @@
 # ☕ Cafe Management System
 
-A modern Laravel-based Cafe Management System designed to help cafe owners manage menus, orders, customers, and AI-generated social media content.  
-The project runs inside **Docker for Laravel**, while the database is hosted **externally (Aiven MySQL)** or can be replaced with any other MySQL server.
+A modern Laravel-based Cafe Management System designed to help cafe owners manage menus, orders, customers, and AI-generated social media content. Role-based system where receptionist/waiters can add orders, kitchen staff can get on-time orders and update the status of order. 
 
 ---
 
@@ -10,7 +9,7 @@ The project runs inside **Docker for Laravel**, while the database is hosted **e
 This project has:
 
 -   A **Dockerfile** and **docker-compose.yml** to run the Laravel application
--   An **external MySQL database** (hosted in Aiven)
+-   An **external MySQL database** 
 
 Follow these steps to get started:
 
