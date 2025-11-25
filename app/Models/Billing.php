@@ -19,7 +19,7 @@ class Billing extends Model
 
     public function station()
     {
-        return $this->belongsTo(Station::class);
+        return $this->belongsTo(Station::class, 'station_id');
     }
     public function orders()
     {

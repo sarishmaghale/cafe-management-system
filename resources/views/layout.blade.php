@@ -222,7 +222,8 @@
                 <span>Bills</span></a>
             <a class="nav-link" href="{{ route('translator.index') }}"><i class="fas fa-language"></i>
                 <span>Translator</span></a>
-
+            <a class="nav-link" href="{{ route('kitchen.index') }}"><i class="fas fa-language"></i>
+                <span>Kitchen</span></a>
             <!-- Components Dropdown -->
             <a class="nav-link d-flex justify-content-between align-items-center" id="componentsToggle"
                 href="javascript:void(0)">

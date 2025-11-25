@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -8,10 +9,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StationController;
 use App\Http\Controllers\TranslatorController;
-use Spatie\Permission\Models\Role;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,4 +59,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/translator', [TranslatorController::class, 'index'])->name('translator.index');
     Route::post('/translator', [TranslatorController::class, 'translate'])->name('translator.translate');
+
+    Route::get('/kitchen', [KitchenController::class, 'index'])->name('kitchen.index');
+    Route::get('/kitchen/orders', [KitchenController::class, 'orders'])->name('kitchen.orders');
+    Route::post('/kitchen/orders/{id}', [KitchenController::class, 'orderPreparing'])->name('kitchen.update');
 });

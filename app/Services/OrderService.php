@@ -69,14 +69,39 @@ class OrderService
         return $this->orderRepo->getOrderByOrderId($id);
     }
 
-    public function updateOrder(array $data, int $id)
+    public function updateOrder(int $id)
     {
-        $orderDetails = $this->orderRepo->getOrderByOrderId($id);
-        $products = $this->productRepo->getProductById($data['product_id']);
-        if ($products) {
-            $data['sum'] = $data['quantity'] * $products->product_price;
-            $this->orderRepo->updateOrder($orderDetails, $data);
-            return $this->orderRepo->getOrderByOrderId($id);
-        }
+        // $orderDetails = $this->orderRepo->getOrderByOrderId($id);
+        // $products = $this->productRepo->getProductById($data['product_id']);
+        // if ($products) {
+        //     $data['sum'] = $data['quantity'] * $products->product_price;
+        //     $this->orderRepo->updateOrder($orderDetails, $data);
+        //     return $this->orderRepo->getOrderByOrderId($id);
+        // }
+        $order = $this->orderRepo->getOrderByOrderId($id);
+        $order->status = 1;
+        $order->save();
+        return true;
+    }
+
+    public function fetchNewOrders()
+    {
+        $orders = $this->orderRepo->getNewOrders();
+        $formattedOrders = $orders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'station_name' => $order->bill->station->station_name ?? null,
+                'product_name' => $order->product->product_name ?? null,
+                'quantity' => $order->quantity,
+                'created_at' => $order->created_at->format('h:i A'),
+            ];
+        });
+        $newOrders = $formattedOrders->count();
+        $totalOrders = $this->orderRepo->countTotalOrders();
+        return [
+            'totalOrders' => $totalOrders,
+            'newOrders' => $newOrders,
+            'orders' => $formattedOrders,
+        ];
     }
 }

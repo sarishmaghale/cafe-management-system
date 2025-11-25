@@ -31,4 +31,16 @@ class OrderRepository
     {
         return $order->update($data);
     }
+    public function getNewOrders(): Collection
+    {
+        return Order::with(['product', 'bill.station'])
+            ->where('status', 0)
+            ->get();
+    }
+    public function countTotalOrders(): int
+    {
+        $today = getTodayDate();
+        $totalOrders = Order::whereDate('created_at', $today)->count();
+        return $totalOrders;
+    }
 }
