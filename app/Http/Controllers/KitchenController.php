@@ -18,7 +18,7 @@ class KitchenController extends Controller
     public function orders()
     {
         $result = $this->orderService->fetchNewOrders();
-        return view('partial.kitchen-orders', compact('result'));
+        return view('partial.kitchen-orders', compact('result'))->render();
     }
 
     public function orderPreparing($id)

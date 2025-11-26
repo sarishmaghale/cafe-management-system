@@ -43,4 +43,9 @@ class ProductService
             return $this->productRepo->deleteProduct($product);
         }
     }
+
+    public function fetchPopularProducts()
+    {
+        return $this->productRepo->getTopProducts();
+    }
 }

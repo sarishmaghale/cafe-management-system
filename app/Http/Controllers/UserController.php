@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LogInRequest;
 use Illuminate\Http\Request;
+use App\Http\Requests\LogInRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\UserCreateRequest;
 
 class UserController extends Controller
 {
@@ -30,5 +31,20 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('stations.index');
+    }
+
+    public function index()
+    {
+        return view('create-user');
+    }
+    public function store(UserCreateRequest $request)
+    {
+        $validatedData = $request->validated();
+        $user = User::create([
+            'name' => $validatedData->name,
+            'email' => $validatedData->email,
+            'password' => bcrypt($validatedData->password),
+        ]);
+        $user->assignRole($validatedData->roles);
     }
 }

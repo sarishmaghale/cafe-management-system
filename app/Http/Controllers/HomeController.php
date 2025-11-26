@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Services\BillingService;
+use App\Services\ProductService;
 
 class HomeController extends Controller
 {
-       public function __construct(protected BillingService $salesRepo) {}
+       public function __construct(protected BillingService $salesRepo, protected ProductService $productService) {}
 
        public function index()
        {

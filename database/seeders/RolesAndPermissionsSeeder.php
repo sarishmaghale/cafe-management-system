@@ -17,20 +17,16 @@ class RolesAndPermissionsSeeder extends Seeder
     public function run()
     {
         //create roles
-        $admin = Role::create([
-            'name' => 'admin'
-        ]);
-        $receptionist = Role::create([
-            'name' => 'receptionist'
-        ]);
-
-
+        $roles = ['admin', 'receptionist', 'kitchen', 'waiter', 'manager'];
+        foreach ($roles as $role) {
+            Role::firstOrCreate(['name' => $role]);
+        }
         //create permissions
-        $manageProducts = Permission::create([
-            'name' => 'manage products'
-        ]);
+        // $manageProducts = Permission::create([
+        //     'name' => 'manage products'
+        // ]);
 
         //Assign permissions to roles
-        $admin->givePermissionTo(($manageProducts));
+        // $admin->givePermissionTo(($manageProducts));
     }
 }

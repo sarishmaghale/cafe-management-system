@@ -24,8 +24,9 @@ class BillingController extends Controller
     public function update(UpdateBillingRequest $request, int $id)
     {
         $data = $request->validated();
-        $this->billingService->updateBillAfterCheckOut($data, $id);
-        return redirect()->route('stations.index')->with('success', 'Bill paid successfully');
+        $updatedBill = $this->billingService->updateBillAfterCheckOut($data, $id);
+        return redirect()->route('bills.detail', ['id' => $updatedBill->id])
+            ->with('success', 'Bill paid successfully');
     }
 
     public function billHistory()

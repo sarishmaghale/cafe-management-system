@@ -30,4 +30,12 @@ class ProductRepository
     {
         return Product::where('isDeleted', false)->get();
     }
+    public function getTopProducts(): Collection
+    {
+        $topProducts = Product::withSum('orders', 'quantity') // calculates total quantity sold
+            ->orderByDesc('orders_sum_quantity') // orders_sum_quantity is auto-created by withSum
+            ->take(3)
+            ->get();
+        return $topProducts;
+    }
 }

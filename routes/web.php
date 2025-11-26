@@ -27,11 +27,12 @@ use App\Http\Controllers\TranslatorController;
 Route::get('/user', [UserController::class, 'showLogInPage'])->name('LogInForm');
 Route::post('/LogInAttempt', [UserController::class, 'userLogin'])->name('LogInSubmit');
 Route::post('/logout', [UserController::class, 'userLogOut'])->name('logout');
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
     Route::get('/products', [ProductController::class, 'show'])->name('products.show');
     Route::post('/products', [ProductController::class, 'store'])

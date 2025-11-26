@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use App\Models\Product;
 use App\Models\Station;
+use Spatie\Permission\Models\Role;
 
 if (!function_exists('getTodayDate')) {
     function getTodayDate()
@@ -68,6 +69,12 @@ if (!function_exists('getTotalStations')) {
     function getTotalStations()
     {
         return Station::count();
+    }
+}
+if (!function_exists('getRoles')) {
+    function getRoles()
+    {
+        return Role::all();
     }
 }
 if (!function_exists('getDailySales')) {
