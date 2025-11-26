@@ -11,6 +11,10 @@ A modern Laravel-based Cafe Management System designed to help small cafe owners
 
 ![Dashboard](public/snapshots/dashboard.png)
 
+### Login
+
+![LogIn](public/snapshots/login.png)
+
 ### 2. Stations
 
 ![Stations](public/snapshots/stations.png)
