@@ -16,3 +16,12 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/.editor.config
+dump.sql
+artisan
+phpunit.xml
+phpunit.xml.bak
+/.phpunit.cache
+/.gitattributes
+vite.config.js
+/.dockerignore
