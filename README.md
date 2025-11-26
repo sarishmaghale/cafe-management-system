@@ -9,23 +9,23 @@ A modern Laravel-based Cafe Management System designed to help small cafe owners
 
 ### 1. Dashboard
 
-![Dashboard](assets/snapshots/dashboard.png)
+![Dashboard](public/snapshots/dashboard.png)
 
 ### 2. Stations
 
-![Stations](assets/snapshots/stations.png)
+![Stations](public/snapshots/stations.png)
 
 ### 3. Kitchen Display
 
-![Kitchen Display](assets/snapshots/kitchenDisplay.png)
+![Kitchen Display](public/snapshots/kitchenDisplay.png)
 
 ### 4. Bills
 
-![Billing History](assets/snapshots/billHistory.png)
+![Billing History](public/snapshots/billHistory.png)
 
 ### 5. Receipt
 
-![Receipt](assets/snapshots/receipt.png)
+![Receipt](public/snapshots/receipt.png)
 
 ---
 
@@ -33,7 +33,7 @@ A modern Laravel-based Cafe Management System designed to help small cafe owners
 
 ## 📁 Snapshots Folder
 
-> You can see all images/screenshots used in this README inside the `assets/snapshots/` folder.
+> You can see all images/screenshots used in this README inside the `public/snapshots/` folder.
 
 ## 🛠️ Setup Tutorial
 
