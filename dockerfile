@@ -29,7 +29,7 @@ WORKDIR /var/www
 # Copy the entire application code first
 COPY . .
 # Create necessary directories and set permissions
-RUN mkdir -p storage/framework/views storage/framework/cache bootstrap/cache && \
+RUN mkdir -p storage/framework/views storage/framework/cache storage/framework/sessions bootstrap/cache && \
     chown -R www-data:www-data storage bootstrap/cache && \
     chmod -R 775 storage bootstrap/cache
 # Install dependencies without dev packages
@@ -40,4 +40,5 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progre
 EXPOSE 8000
 
 # Start Laravel server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT}"]
+
