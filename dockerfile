@@ -35,7 +35,11 @@ RUN mkdir -p storage/framework/views storage/framework/cache storage/framework/s
 # Install dependencies without dev packages
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
-
+# Run laravel artisan command during build
+RUN php artisan config:clear
+RUN php artisan cache:clear
+RUN php artisan route:clear
+RUN php artisan view:clear
 # Expose port 8000
 EXPOSE 8000
 

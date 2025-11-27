@@ -11,6 +11,7 @@ class HomeController extends Controller
 
        public function index()
        {
+
               $date = getTodayDate();
               $chartData = $this->getMonthlySalesData($date);
               $dailySales = getDailySales($date);
