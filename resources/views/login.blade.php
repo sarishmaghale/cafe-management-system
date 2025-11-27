@@ -294,9 +294,10 @@
         </div>
 
         <div class="login-right">
-            © 2024 BrewBerry by Sarishma. All rights reserved.
+
+
             <div class="login-header">
-                <h2>Welcome Back!</h2>
+                <h2>Welcome !</h2>
                 <p>Please login to access the system</p>
             </div>
 
@@ -322,10 +323,11 @@
 
                 <div class="remember-forgot">
                     <div class="remember-me">
-                        <input type="checkbox" id="remember" name="remember">
-                        <label for="remember">Remember me</label>
+
+                        {{-- <input type="checkbox" id="remember" name="remember"> --}}
+                        <label for="remember">© BrewBerry by Sarishma. </label>
                     </div>
-                    <a href="#" class="forgot-password">Forgot Password?</a>
+                    {{-- <a href="#" class="forgot-password">Forgot Password?</a> --}}
                 </div>
 
                 <button type="submit" class="btn-login">
