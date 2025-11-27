@@ -294,6 +294,7 @@
         </div>
 
         <div class="login-right">
+            © 2024 BrewBerry by Sarishma. All rights reserved.
             <div class="login-header">
                 <h2>Welcome Back!</h2>
                 <p>Please login to access the system</p>
