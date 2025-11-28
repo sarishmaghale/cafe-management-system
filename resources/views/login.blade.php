@@ -145,13 +145,30 @@
             position: relative;
         }
 
-        .input-wrapper i {
+        .input-wrapper .fa-envelope,
+        .input-wrapper .fa-lock {
             position: absolute;
             left: 15px;
             top: 50%;
             transform: translateY(-50%);
             color: #a0aec0;
             font-size: 16px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 16px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 10;
+        }
+
+        .toggle-password:hover {
+            color: #667eea;
         }
 
         .form-control {
@@ -162,6 +179,10 @@
             font-size: 15px;
             transition: all 0.3s ease;
             background: #f7fafc;
+        }
+
+        #password {
+            padding-right: 45px;
         }
 
         .form-control:focus {
@@ -318,6 +339,7 @@
                         <i class="fas fa-lock"></i>
                         <input type="password" name="password" id="password" class="form-control"
                             placeholder="Enter your password" required>
+                        <i class="fas fa-eye toggle-password" id="togglePassword"></i>
                     </div>
                 </div>
 
@@ -336,8 +358,40 @@
             </form>
         </div>
     </div>
-
+    <div id="globalSpinner" class="d-none text-center mt-3">
+        <div class="spinner-border text-primary" role="status">
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const spinner = document.getElementById("globalSpinner");
+
+            document.querySelectorAll("form").forEach(form => {
+                form.addEventListener("submit", function(e) {
+                    form.querySelectorAll("[type='submit']").forEach(btn => {
+                        btn.disabled = true;
+                        btn.innerHTML =
+                            `<span class="spinner-border spinner-border-sm me-2" role="status"></span>Logging in...`;
+                    });
+                });
+            });
+
+            // Password toggle functionality
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+
+            togglePassword.addEventListener('click', function() {
+                // Toggle the type attribute
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                // Toggle the eye icon
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        });
+    </script>
 </body>
 
 </html>

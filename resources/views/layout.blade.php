@@ -12,7 +12,6 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
-
     <style>
         :root {
             --bg-color: #f8f9fa;
@@ -74,6 +73,14 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            white-space: nowrap;
+            margin-bottom: 0;
+        }
+
+        .navbar-logo {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
         }
 
         #sidebarToggle {
@@ -98,6 +105,47 @@
         #sidebarToggle:focus {
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
             outline: none;
+        }
+
+        /* User Dropdown in Navbar */
+        .navbar .dropdown .nav-link {
+            color: var(--text-color) !important;
+            padding: 6px 12px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .navbar .dropdown .nav-link:hover {
+            background: #ffffff;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .navbar .dropdown-menu {
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+            border-radius: 12px;
+            padding: 8px;
+            margin-top: 8px;
+            min-width: 200px;
+        }
+
+        .navbar .dropdown-item {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .navbar .dropdown-item:hover {
+            background: var(--bg-color);
+            color: var(--active-color);
+        }
+
+        .navbar .dropdown-divider {
+            margin: 8px 0;
+            opacity: 0.5;
         }
 
         /* Sidebar */
@@ -256,56 +304,8 @@
             min-height: calc(100vh - 64px);
         }
 
-        #sidebar.expanded+#content {
+        #sidebar.expanded~#content {
             margin-left: 260px;
-        }
-
-        /* User dropdown */
-        #userDropdownWrapper {
-            position: fixed;
-            top: 12px;
-            right: 20px;
-            z-index: 1100;
-        }
-
-        #userDropdownWrapper .nav-link {
-            color: var(--text-color) !important;
-            padding: 6px 12px;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-        }
-
-        #userDropdownWrapper .nav-link:hover {
-            background: #ffffff;
-            box-shadow: var(--shadow-sm);
-        }
-
-        #userDropdownWrapper .dropdown-menu {
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-lg);
-            border-radius: 12px;
-            padding: 8px;
-            margin-top: 8px;
-            min-width: 200px;
-        }
-
-        #userDropdownWrapper .dropdown-item {
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.2s ease;
-        }
-
-        #userDropdownWrapper .dropdown-item:hover {
-            background: var(--bg-color);
-            color: var(--active-color);
-        }
-
-        #userDropdownWrapper .dropdown-divider {
-            margin: 8px 0;
-            opacity: 0.5;
         }
 
         /* Card improvements */
@@ -343,38 +343,6 @@
             padding: 1rem;
         }
 
-        @media (max-width: 768px) {
-            .chart-container {
-                height: 240px;
-            }
-
-            #sidebar {
-                width: 0;
-                padding: 0;
-            }
-
-            #sidebar.expanded {
-                width: 260px;
-                padding: 1rem 0;
-            }
-
-            #content {
-                margin-left: 0;
-            }
-
-            #sidebar.expanded+#content {
-                margin-left: 0;
-            }
-
-            .navbar {
-                padding: 0.75rem 1rem;
-            }
-
-            #userDropdownWrapper {
-                right: 10px;
-            }
-        }
-
         .chart-container canvas {
             display: block;
             width: 100% !important;
@@ -394,9 +362,14 @@
             border: none;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
         }
 
         /* Form improvements */
@@ -446,6 +419,56 @@
         html {
             scroll-behavior: smooth;
         }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 240px;
+            }
+
+            #sidebar {
+                width: 0;
+                padding: 0;
+            }
+
+            #sidebar.expanded {
+                width: 260px;
+                padding: 1rem 0;
+            }
+
+            #content {
+                margin-left: 0;
+            }
+
+            #sidebar.expanded~#content {
+                margin-left: 0;
+            }
+
+            .navbar {
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.1rem;
+            }
+
+            #sidebarToggle {
+                width: 36px;
+                height: 36px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .navbar-brand {
+                font-size: 0.95rem;
+            }
+        }
     </style>
     @stack('styles')
 </head>
@@ -457,21 +480,24 @@
 
     <!-- Navbar -->
     <nav class="navbar navbar-light">
-        <button class="btn" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
-        </button>
-        <a class="navbar-brand ms-3" href="#">BrewBerry</a>
-        <div></div>
-    </nav>
+        <div class="d-flex align-items-center">
+            <button class="btn" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="d-flex align-items-center ms-2 ms-md-3">
+                <img src="{{ asset('images/logo.png') }}" alt="BrewBerry Logo"
+                    class="navbar-logo d-none d-sm-block me-2">
+                <a class="navbar-brand" href="#">BrewBerry</a>
+            </div>
+        </div>
 
-    <!-- User Dropdown -->
-    <div id="userDropdownWrapper">
         <div class="dropdown">
             <a class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" href="#"
                 role="button">
                 <img src="{{ asset('images/userLogo.png') }}" class="rounded-circle" width="32" height="32"
                     alt="User">
-                <span class="ms-2 fw-medium">{{ Auth::user()->name }}</span>
+                <span class="ms-2 fw-medium d-none d-md-inline">{{ Auth::user()->name }}</span>
+                <i class="fas fa-chevron-down ms-2 d-none d-md-inline" style="font-size: 10px;"></i>
             </a>
 
             <ul class="dropdown-menu dropdown-menu-end">
@@ -487,7 +513,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </nav>
 
     <!-- Sidebar -->
     <div id="sidebar">
@@ -589,7 +615,27 @@
                     }
                 }
             });
+        });
 
+        // Handle form submissions - disable button and show spinner
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll("form").forEach(form => {
+                form.addEventListener("submit", function(e) {
+                    // Don't show spinner for forms that have data-no-spinner attribute
+                    if (form.hasAttribute('data-no-spinner')) {
+                        return;
+                    }
+
+                    // Disable all submit buttons in the form
+                    form.querySelectorAll("[type='submit']").forEach(btn => {
+                        btn.disabled = true;
+                        const originalText = btn.innerHTML;
+                        btn.setAttribute('data-original-text', originalText);
+                        btn.innerHTML =
+                            `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...`;
+                    });
+                });
+            });
         });
 
         @if (session('success'))

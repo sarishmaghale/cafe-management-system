@@ -214,9 +214,14 @@
 @section('content')
     <div class="container-fluid">
         <!-- Header -->
-        <div class="page-header">
-            <h2 class="page-title">{{ $stationInfo->station_name }}</h2>
-            <span class="badge bg-primary">{{ $orders->count() }} items</span>
+        <div class="page-header d-flex align-items-center justify-content-between">
+            <h2 class="page-title mb-0">{{ $stationInfo->station_name }}</h2>
+            <div class="d-flex align-items-center gap-2">
+                <a href="{{ route('stations.index') }}" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-arrow-left me-1"></i> Back
+                </a>
+                <span class="badge bg-primary">{{ $orders->count() }} items</span>
+            </div>
         </div>
 
         <!-- Add Product Form -->

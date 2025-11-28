@@ -148,7 +148,7 @@
 
         .btn-preparing {
             width: 100%;
-            background: #3b82f6;
+            background: #4b4b42;
             border: none;
             padding: 12px;
             border-radius: 8px;
@@ -160,7 +160,7 @@
         }
 
         .btn-preparing:hover {
-            background: #2563eb;
+            background: #33332d;
         }
 
         @media (max-width: 768px) {
@@ -206,37 +206,58 @@
                 day: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit',
-                second: '2-digit'
             };
             document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
         }
+        setInterval(updateTime, 60000);
         updateTime();
-        setInterval(updateTime, 1000);
+        let isFetching = false;
 
-        function loadOrders() {
-            $.get('{{ route('kitchen.orders') }}', function(html) {
-                $('#partialView').html(html);
-            });
+        async function loadOrders() {
+            if (isFetching) return;
+            isFetching = true;
+            try {
+                const res = await fetch(`{{ route('kitchen.orders') }}`);
+                const html = await res.text();
+                document.getElementById('partialView').innerHTML = html;
+            } catch (err) {
+                console.error(err);
+            } finally {
+                isFetching = false;
+                setTimeout(loadOrders, 5000);
+            }
         }
 
-        function markPreparing(id) {
-            $.ajax({
-                url: '{{ route('kitchen.update', ':id') }}'.replace(':id', id),
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    if (response.success) {
-                        loadOrders(); // refresh the orders 
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error updating order:', error);
+        async function markPreparing(button, id) {
+            const orderCard = button.closest('.order-card');
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Started preparing..';
+            $(orderCard).fadeOut(300, () => $(orderCard).remove());
+
+            try {
+                const response = await fetch(`{{ route('kitchen.update', ':id') }}`.replace(':id', id), {
+                    method: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _token: '{{ csrf_token() }}'
+                    })
+                });
+
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                if (!data.success) {
+                    button.disabled = false;
+                    button.innerHTML = '<i class="fas fa-bread-slice me-2"></i> Order received';
                 }
-            });
+            } catch (error) {
+                button.disabled = false;
+                button.innerHTML = '<i class="fas fa-bread-slice me-2"></i> Order received';
+                console.error('Failed to update order status', error);
+            }
         }
         loadOrders();
-        setInterval(loadOrders, 10000);
     </script>
 @endpush

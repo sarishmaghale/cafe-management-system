@@ -30,9 +30,8 @@
                  </div>
              </div>
 
-             <button class="btn-preparing" onclick="markPreparing({{ $order['id'] }})">
-                 <i class="fas fa-check me-2"></i>Preparing
-             </button>
+             <button class="btn-preparing" onclick="markPreparing(this, {{ $order['id'] }})">
+                 <i class="fas fa-bread-slice me-2"></i>Order received
          </div>
      @endforeach
 
